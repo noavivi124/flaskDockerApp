@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: ./
+    ports:
+      - 5000:5000
+
+    environment:
+      APP_URL: "localhost"
+      SQL_PORT: "3306"
+      SQL_HOST: "database"
+      SQL_USER: "root"
+      SQL_PASSWORD: ""
+      SQL_DATABASE: "database"
+  db:
+    image: mysql:8.0
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: "database"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./Database/schema.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  mysql-data:
+    driver: local
+
